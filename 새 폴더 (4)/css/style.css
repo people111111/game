@@ -1,0 +1,316 @@
+:root {
+  --bg: #07090e;
+  --panel: #12161f;
+  --line: #2a3348;
+  --text: #e8edf7;
+  --muted: #8b97ad;
+  --red: #ff4d4d;
+  --gold: #ffb020;
+  --cyan: #3ecbff;
+  --green: #3dff8a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans KR", sans-serif;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app, #game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#game { display: block; background: #07090e; }
+
+.hidden { display: none !important; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 7, 12, 0.78);
+  backdrop-filter: blur(8px);
+  z-index: 20;
+  padding: 24px;
+}
+
+.panel {
+  width: min(460px, 100%);
+  background: linear-gradient(180deg, #161c28, #10141c);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px 24px 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.logo {
+  font-family: Rajdhani, sans-serif;
+  letter-spacing: 0.28em;
+  color: var(--red);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+h1 {
+  font-size: 34px;
+  margin: 6px 0 4px;
+  letter-spacing: -0.03em;
+}
+
+h2 { margin-bottom: 10px; }
+
+.sub, .muted { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 18px 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+input {
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0b0f16;
+  color: var(--text);
+  padding: 0 14px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+}
+
+input:focus { border-color: var(--cyan); }
+
+.row, .join-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.join-row input { flex: 1; text-transform: uppercase; letter-spacing: 0.2em; }
+
+.btn {
+  flex: 1;
+  height: 46px;
+  border: 1px solid var(--line);
+  background: #1a2230;
+  color: var(--text);
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, #ff5d5d, #d62828);
+  border-color: #ff7a7a;
+}
+
+.btn:active { transform: scale(0.98); }
+
+.error {
+  min-height: 18px;
+  margin-top: 10px;
+  color: var(--red);
+  font-size: 13px;
+}
+
+.help {
+  margin-top: 16px;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.code {
+  font-family: Rajdhani, sans-serif;
+  font-size: 42px;
+  letter-spacing: 0.28em;
+  text-align: center;
+  margin: 8px 0 12px;
+  color: var(--cyan);
+}
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 0;
+}
+
+.hp-wrap { width: min(280px, 46vw); }
+
+.hp-label, .hud-meta {
+  font-family: Rajdhani, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hp-bar {
+  height: 14px;
+  background: #1a1010;
+  border: 1px solid #5a2020;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+#hpFill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff4d4d, #3dff8a);
+  transform-origin: left;
+}
+
+#hpText { font-size: 13px; color: #cfd7e6; }
+
+.hud-meta { text-align: right; pointer-events: auto; }
+.leave {
+  margin-top: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #1a2230;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#killFeed {
+  position: absolute;
+  top: 70px;
+  right: 16px;
+  font-size: 13px;
+  color: #d7deea;
+  text-align: right;
+}
+
+#centerMsg {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 800;
+  text-shadow: 0 4px 18px #000;
+}
+
+.weapon-cd {
+  position: absolute;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+}
+
+.cd-item { width: 110px; font-size: 12px; color: var(--muted); }
+.cd-bar { height: 6px; background: #1b2230; border-radius: 99px; overflow: hidden; margin-top: 4px; }
+#gunCd, #swordCd {
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+}
+#gunCd { background: var(--cyan); }
+#swordCd { background: var(--gold); }
+#roomTag { cursor: pointer; }
+
+#touch {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.stick {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  pointer-events: auto;
+  bottom: calc(28px + env(safe-area-inset-bottom));
+}
+
+#moveStick { left: calc(28px + env(safe-area-inset-left)); }
+#aimStick { right: calc(28px + env(safe-area-inset-right)); }
+
+.stick-base {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+}
+
+.stick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.atk-btn {
+  position: absolute;
+  pointer-events: auto;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 18px;
+  right: calc(48px + env(safe-area-inset-right));
+}
+
+.atk-btn.gun {
+  bottom: calc(180px + env(safe-area-inset-bottom));
+  background: rgba(62, 203, 255, 0.28);
+}
+
+.atk-btn.sword {
+  bottom: calc(180px + env(safe-area-inset-bottom));
+  right: calc(138px + env(safe-area-inset-right));
+  background: rgba(255, 176, 32, 0.3);
+}
+
+.atk-btn:active, .atk-btn.held {
+  transform: scale(0.94);
+  filter: brightness(1.2);
+}
+
+@media (max-width: 820px) {
+  .stick { width: 120px; height: 120px; }
+  .atk-btn { width: 70px; height: 70px; }
+}

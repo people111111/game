@@ -1,0 +1,9 @@
+{
+  "name": "서클 아레나",
+  "short_name": "아레나",
+  "display": "standalone",
+  "background_color": "#07090e",
+  "theme_color": "#07090e",
+  "orientation": "any",
+  "start_url": "./"
+}
