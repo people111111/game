@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#07090e" />
+  <title>서클 아레나</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect fill='%2307090e' width='64' height='64' rx='12'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%23ff4d4d'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%2307090e'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div id="hud" class="hidden">
+      <div class="hud-top">
+        <div class="hp-wrap">
+          <div class="hp-label">HP</div>
+          <div class="hp-bar"><div id="hpFill"></div></div>
+          <div id="hpText">100</div>
+        </div>
+        <div class="hud-meta">
+          <div id="roomTag">연습</div>
+          <div id="killStat">처치 0</div>
+          <button type="button" id="btnLeave" class="leave">나가기</button>
+        </div>
+      </div>
+      <div id="killFeed"></div>
+      <div id="centerMsg" class="hidden"></div>
+      <div class="weapon-cd">
+        <div class="cd-item">
+          <span>총</span>
+          <div class="cd-bar"><div id="gunCd"></div></div>
+        </div>
+        <div class="cd-item">
+          <span>검</span>
+          <div class="cd-bar"><div id="swordCd"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="touch" class="hidden">
+      <div id="moveStick" class="stick">
+        <div class="stick-base"></div>
+        <div class="stick-knob" id="moveKnob"></div>
+      </div>
+      <div id="aimStick" class="stick">
+        <div class="stick-base"></div>
+        <div class="stick-knob" id="aimKnob"></div>
+      </div>
+      <button type="button" id="btnGun" class="atk-btn gun">총</button>
+      <button type="button" id="btnSword" class="atk-btn sword">검</button>
+    </div>
+
+    <div id="menu" class="overlay">
+      <div class="panel">
+        <div class="logo">CIRCLE ARENA</div>
+        <h1>서클 아레나</h1>
+        <p class="sub">2D 탑다운 온라인 전투 · 원형 플레이어 · 총 / 검</p>
+        <label class="field">
+          닉네임
+          <input id="nameInput" maxlength="12" placeholder="플레이어" autocomplete="off" />
+        </label>
+        <div class="row">
+          <button type="button" id="btnPractice" class="btn primary">연습하기</button>
+          <button type="button" id="btnCreate" class="btn">방 만들기</button>
+        </div>
+        <div class="join-row">
+          <input id="roomInput" maxlength="6" placeholder="방 코드" autocomplete="off" />
+          <button type="button" id="btnJoin" class="btn">참가</button>
+        </div>
+        <p id="menuError" class="error"></p>
+        <ul class="help">
+          <li>체력 100 · 총 공격력 10 / 1초 · 검 근접 20 / 1초</li>
+          <li>PC: WASD 이동, 마우스 조준, 좌클릭 총, 우클릭·스페이스 검</li>
+          <li>태블릿: 왼쪽 스틱 이동, 오른쪽 스틱 조준, 총/검 버튼</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="waiting" class="overlay hidden">
+      <div class="panel">
+        <h2>방 대기</h2>
+        <div class="code" id="roomCode">------</div>
+        <p>이 코드를 상대에게 알려주세요. 같은 Wi‑Fi가 아니어도 됩니다.</p>
+        <p class="muted" id="waitStatus">상대를 기다리는 중…</p>
+        <button type="button" id="btnCancelWait" class="btn">나가기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
