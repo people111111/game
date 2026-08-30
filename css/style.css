@@ -1,4 +1,12 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  touch-action: none; /* 모바일 제스처/스크롤 방지 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
 html, body {
   width: 100%; height: 100%; overflow: hidden;
@@ -6,58 +14,91 @@ html, body {
   font: 14px Arial, "Malgun Gothic", sans-serif;
 }
 
-button, input { font: inherit; }
+button, input { 
+  font: inherit; 
+  touch-action: manipulation;
+}
+input {
+  touch-action: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
 button { cursor: pointer; }
 
 #app { display: flex; flex-direction: column; height: 100%; background: #fff; }
 #titlebar {
-  height: 48px; flex: 0 0 48px; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; border-bottom: 1px solid #111; font-size: 13px;
+  height: 44px; flex: 0 0 44px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; border-bottom: 1px solid #111; font-size: 13px;
 }
-#titlebar b { font-size: 16px; letter-spacing: .08em; }
+#titlebar b { font-size: 15px; letter-spacing: .08em; }
 #connLabel { color: #555; font-size: 12px; }
 
-#main { flex: 1; display: flex; min-height: 0; }
-#side { width: 220px; flex-shrink: 0; padding: 16px; overflow: auto; border-right: 1px solid #111; background: #fff; }
-.box { margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #d4d4d4; }
-.box-h { margin-bottom: 11px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.stat { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
-.stat span { color: #666; }.stat b { font-weight: 500; }
-.hp { height: 6px; margin: 7px 0 10px; background: #eee; }
+#main { flex: 1; display: flex; min-height: 0; position: relative; }
+#side { width: 200px; flex-shrink: 0; padding: 12px; overflow-y: auto; border-right: 1px solid #111; background: #fff; }
+.box { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #d4d4d4; }
+.box-h { margin-bottom: 8px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.stat { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; }
+.stat span { color: #666; } .stat b { font-weight: 500; }
+.hp { height: 6px; margin: 6px 0 8px; background: #eee; }
 .hp i { display: block; width: 100%; height: 100%; background: #111; transform-origin: left center; }
 
 .wep {
-  display: block; width: 100%; margin-bottom: 6px; padding: 9px;
+  display: block; width: 100%; margin-bottom: 6px; padding: 8px;
   color: #111; text-align: left; background: #fff; border: 1px solid #c8c8c8;
 }
-.wep b { display: block; font-size: 12px; }.wep small { display: block; margin-top: 4px; color: #777; font-size: 10px; }
-.wep:hover { border-color: #111; }.wep.on { color: #fff; background: #111; border-color: #111; }.wep.on small { color: #ddd; }
-.cdline { margin-top: 8px; color: #666; font-size: 11px; }.cdline i { display: inline-block; width: 104px; height: 5px; margin-left: 5px; background: #111; vertical-align: middle; transform-origin: left center; }
-#plist { min-height: 40px; color: #444; font-size: 11px; line-height: 1.8; }
-.sysbtn { width: 100%; padding: 9px; color: #111; background: #fff; border: 1px solid #111; font-size: 12px; }.sysbtn:hover { color: #fff; background: #111; }
+.wep b { display: block; font-size: 12px; } .wep small { display: block; margin-top: 3px; color: #777; font-size: 10px; }
+.wep:hover { border-color: #111; } .wep.on { color: #fff; background: #111; border-color: #111; } .wep.on small { color: #ddd; }
+.cdline { margin-top: 6px; color: #666; font-size: 11px; } .cdline i { display: inline-block; width: 80px; height: 5px; margin-left: 5px; background: #111; vertical-align: middle; transform-origin: left center; }
+#plist { min-height: 30px; color: #444; font-size: 11px; line-height: 1.6; }
+.sysbtn { width: 100%; padding: 8px; color: #111; background: #fff; border: 1px solid #111; font-size: 12px; } .sysbtn:hover { color: #fff; background: #111; }
 
 #stagewrap { position: relative; flex: 1; min-width: 0; background: #f5f5f5; }
-#stagewrap::before { content: "전체 맵"; position: absolute; z-index: 1; top: 13px; left: 15px; padding: 3px 5px; background: #fff; border: 1px solid #111; font-size: 11px; pointer-events: none; }
+#stagewrap::before { content: "전체 맵"; position: absolute; z-index: 1; top: 10px; left: 10px; padding: 2px 6px; background: #fff; border: 1px solid #111; font-size: 10px; pointer-events: none; }
 #game { display: block; width: 100%; height: 100%; background: #f5f5f5; }
-#centerMsg { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); padding: 10px 14px; color: #111; background: #fff; border: 1px solid #111; font-size: 13px; pointer-events: none; }
+#centerMsg { position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); padding: 10px 14px; color: #111; background: #fff; border: 1px solid #111; font-size: 13px; pointer-events: none; z-index: 5; }
 
-#chatbox { height: 115px; flex: 0 0 115px; display: flex; flex-direction: column; border-top: 1px solid #111; background: #fff; }
-#chatlog { flex: 1; overflow-y: auto; padding: 8px 16px; font-size: 12px; line-height: 1.55; user-select: text; -webkit-user-select: text; }
+#chatbox { height: 90px; flex: 0 0 90px; display: flex; flex-direction: column; border-top: 1px solid #111; background: #fff; }
+#chatlog { flex: 1; overflow-y: auto; padding: 6px 12px; font-size: 11px; line-height: 1.4; }
 #chatlog .sys { color: #777; } #chatlog .me { font-weight: 700; } #chatlog .nm { text-decoration: underline; }
-#chatform { display: flex; height: 36px; border-top: 1px solid #d0d0d0; }
-#chatform input { flex: 1; min-width: 0; padding: 0 15px; color: #111; background: #fff; border: 0; outline: none; font-size: 12px; }
-#chatform button { width: 80px; color: #fff; background: #111; border: 0; font-size: 12px; }
+#chatform { display: flex; height: 32px; border-top: 1px solid #d0d0d0; }
+#chatform input { flex: 1; min-width: 0; padding: 0 10px; color: #111; background: #fff; border: 0; outline: none; font-size: 12px; }
+#chatform button { width: 65px; color: #fff; background: #111; border: 0; font-size: 12px; }
 
 #menu { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; background: #fff; }
-#login { width: min(400px, calc(100vw - 40px)); padding: 28px; border: 1px solid #111; background: #fff; }
-.login-h { margin-bottom: 13px; font-size: 22px; font-weight: 700; letter-spacing: -.04em; }
-.brief { margin-bottom: 23px; color: #444; font-size: 13px; line-height: 1.6; }
-#login table { width: 100%; border-collapse: collapse; } #login th { width: 105px; padding: 8px 0; color: #333; font-size: 12px; font-weight: 500; text-align: left; } #login td { padding: 5px 0; }
-#login input { width: 100%; height: 36px; padding: 0 9px; color: #111; background: #fff; border: 1px solid #aaa; outline: none; font-size: 13px; } #login input:focus { border-color: #111; }
-.login-btns { margin-top: 20px; }.login-btns button { width: 100%; height: 39px; color: #fff; background: #111; border: 1px solid #111; font-size: 13px; }.login-btns button:hover { color: #111; background: #fff; }
-#menuError { min-height: 18px; margin-top: 9px; color: #b00020; font-size: 12px; text-align: center; }.hint { margin-top: 13px; color: #666; font-size: 11px; text-align: center; line-height: 1.6; }
+#login { width: min(380px, calc(100vw - 32px)); padding: 20px; border: 1px solid #111; background: #fff; }
+.login-h { margin-bottom: 10px; font-size: 20px; font-weight: 700; letter-spacing: -.04em; }
+.brief { margin-bottom: 16px; color: #444; font-size: 12px; line-height: 1.5; }
+#login table { width: 100%; border-collapse: collapse; } #login th { width: 90px; padding: 6px 0; color: #333; font-size: 12px; font-weight: 500; text-align: left; } #login td { padding: 4px 0; }
+#login input { width: 100%; height: 34px; padding: 0 8px; color: #111; background: #fff; border: 1px solid #aaa; outline: none; font-size: 13px; } #login input:focus { border-color: #111; }
+.login-btns { margin-top: 16px; } .login-btns button { width: 100%; height: 38px; color: #fff; background: #111; border: 1px solid #111; font-size: 13px; } .login-btns button:hover { color: #111; background: #fff; }
+#menuError { min-height: 16px; margin-top: 8px; color: #b00020; font-size: 11px; text-align: center; } .hint { margin-top: 10px; color: #666; font-size: 10px; text-align: center; line-height: 1.5; }
 .hidden { display: none !important; }
 
-#touch { position: absolute; inset: 0; pointer-events: none; }.stick { position: absolute; left: 16px; bottom: 16px; width: 94px; height: 94px; pointer-events: auto; }.stick-base { width: 100%; height: 100%; background: #fff; border: 1px solid #111; opacity: .8; }.stick-knob { position: absolute; left: 50%; top: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px; background: #111; border: 1px solid #111; }.atk { position: absolute; right: 16px; bottom: 16px; width: 70px; height: 70px; color: #fff; background: #111; border: 1px solid #111; font-size: 12px; pointer-events: auto; }.atk.held { color: #111; background: #fff; }
+/* 터치 패드 UI 개선 */
+#touch { position: absolute; inset: 0; pointer-events: none; z-index: 10; }
+.stick { position: absolute; left: 20px; bottom: 20px; width: 110px; height: 110px; pointer-events: auto; }
+.stick-base { width: 100%; height: 100%; background: rgba(255, 255, 255, 0.85); border: 2px solid #111; border-radius: 50%; }
+.stick-knob { position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; background: #111; border-radius: 50%; }
+.atk { 
+  position: absolute; right: 20px; bottom: 20px; width: 80px; height: 80px; 
+  color: #fff; background: #111; border: 2px solid #111; border-radius: 50%;
+  font-size: 14px; font-weight: bold; pointer-events: auto; outline: none;
+}
+.atk.held { color: #111; background: #fff; }
 
-@media (max-width: 720px) { #titlebar { height: 40px; flex-basis: 40px; padding: 0 13px; } #side { width: 150px; padding: 11px; } .box { margin-bottom: 12px; } .wep { padding: 7px; } .wep small { font-size: 9px; } #chatbox { height: 95px; flex-basis: 95px; } #chatlog { padding: 6px 10px; } #stagewrap::before { top: 8px; left: 8px; } }
+/* 모바일 레이아웃 최적화 */
+@media (max-width: 768px) {
+  #main { flex-direction: column-reverse; }
+  #side { 
+    width: 100%; height: auto; max-height: 110px; 
+    display: flex; gap: 10px; padding: 8px; border-right: none; border-top: 1px solid #111; 
+  }
+  .box { margin-bottom: 0; padding-bottom: 0; border-bottom: none; flex: 1; }
+  .box-h { margin-bottom: 4px; font-size: 10px; }
+  .stat { padding: 1px 0; font-size: 10px; }
+  .wep { padding: 4px 6px; margin-bottom: 3px; }
+  .wep b { font-size: 10px; } .wep small { display: none; }
+  #plist { display: none; }
+  #chatbox { height: 70px; flex-basis: 70px; }
+  .sysbtn { padding: 4px; font-size: 10px; }
+}
