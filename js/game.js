@@ -60,7 +60,7 @@
     aimX: 0,
     aimY: 0,
     atk: false,
-    mouseAim: true,
+    mouseAim: false, // 기본값을 false로 지정하여 모바일 오류 방지
     keys: { w: false, a: false, s: false, d: false },
   };
 
@@ -179,7 +179,7 @@
   }
 
   function showTouch() {
-    const coarse = window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+    const coarse = window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window || window.innerWidth <= 768;
     ui.touch.classList.toggle("hidden", !coarse);
   }
 
@@ -472,7 +472,7 @@
       }
       if (Math.hypot(input.aimX, input.aimY) > 0.2) return ang(input.aimX, input.aimY);
       const mv = moveVector(p);
-      if (Math.hypot(mv.x, mv.y) > 0.2) return ang(mv.x, mv.y);
+      if (Math.hypot(mv.x, mv.y) > 0.1) return ang(mv.x, mv.y); // 터치 이동 시 자동 조준 보정
       return p.a;
     }
     if (p._in && typeof p._in.a === "number") return p._in.a;
@@ -796,8 +796,6 @@
       ctx.stroke();
     }
 
-    // Fixed, fully-visible battlefield landmarks: visual cover and navigation only.
-    ctx.fillStyle = "#d5d5d5";
     const blocks = [
       [118, 106, 126, 48], [555, 100, 122, 48], [312, 250, 178, 62],
       [108, 398, 148, 44], [544, 402, 150, 44], [365, 86, 72, 74],
@@ -969,7 +967,7 @@
       }
       const k = e.key.toLowerCase();
       if (k in input.keys) input.keys[k] = true;
-      if (k === " " ) {
+      if (k === " ") {
         input.atk = true;
         e.preventDefault();
       }
@@ -989,26 +987,36 @@
       if (k in input.keys) input.keys[k] = false;
       if (k === " ") input.atk = false;
     });
+
+    // 마우스 조작인 경우에만 mouseAim 활성화
     window.addEventListener("mousemove", (e) => {
-      lastMouse.x = e.clientX;
-      lastMouse.y = e.clientY;
-      input.mouseAim = true;
+      if (e.pointerType === "mouse" || !e.pointerType) {
+        lastMouse.x = e.clientX;
+        lastMouse.y = e.clientY;
+        input.mouseAim = true;
+      }
     });
+
     canvas.addEventListener("mousedown", (e) => {
       if (mode !== "play" || chatting) return;
-      if (e.button === 0) input.atk = true;
+      if (e.button === 0) {
+        input.mouseAim = true;
+        input.atk = true;
+      }
     });
     window.addEventListener("mouseup", (e) => {
       if (e.button === 0) input.atk = false;
     });
-    window.addEventListener("contextmenu", (e) => e.preventDefault());
 
     bindStick("moveStick", ui.moveKnob, (x, y) => {
       input.mx = x;
       input.my = y;
+      if (x !== 0 || y !== 0) input.mouseAim = false; // 조이스틱 조작 시 마우스 조준 해제
     });
+
     const on = (e) => {
       e.preventDefault();
+      input.mouseAim = false;
       input.atk = true;
       ui.btnAtk.classList.add("held");
     };
@@ -1077,7 +1085,10 @@
   ui.chatInput.addEventListener("blur", () => { chatting = false; });
 
   window.addEventListener("beforeunload", () => pub("bye", { id: meId }));
-  window.addEventListener("resize", resize);
+  window.addEventListener("resize", () => {
+    resize();
+    showTouch();
+  });
   window.addEventListener("pointerdown", () => {
     if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
   });
