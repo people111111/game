@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>접근 코드</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect fill='%23000' width='16' height='16'/%3E%3Ccircle cx='8' cy='8' r='5' fill='%23c00'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="titlebar">
+      <b>ARENA</b>
+      <span id="connLabel">접속 전</span>
+    </div>
+
+    <div id="main">
+      <div id="side">
+        <div class="box">
+          <div class="box-h">내 상태</div>
+          <div class="stat"><span>닉네임</span><b id="meName">-</b></div>
+          <div class="stat"><span>HP</span><b id="hpText">100/100</b></div>
+          <div class="hp"><i id="hpFill"></i></div>
+          <div class="stat"><span>처치</span><b id="killStat">0</b></div>
+          <div class="stat"><span>사망</span><b id="deathStat">0</b></div>
+        </div>
+        <div class="box">
+          <div class="box-h">무기 선택 (하나만)</div>
+          <button type="button" class="wep on" id="wepGun" data-wep="gun">
+            <b>[1] 총</b>
+            <small>공격력 10 · 1초</small>
+          </button>
+          <button type="button" class="wep" id="wepSword" data-wep="sword">
+            <b>[2] 검</b>
+            <small>공격력 20 · 근접 · 1초</small>
+          </button>
+          <div class="cdline">공격 대기 <i id="atkCd"></i></div>
+        </div>
+        <div class="box">
+          <div class="box-h">접속자</div>
+          <div id="plist"></div>
+        </div>
+        <button type="button" id="btnLeave" class="sysbtn">나가기</button>
+      </div>
+
+      <div id="stagewrap">
+        <canvas id="game"></canvas>
+        <div id="centerMsg" class="hidden"></div>
+        <div id="touch" class="hidden">
+          <div id="moveStick" class="stick">
+            <div class="stick-base"></div>
+            <div class="stick-knob" id="moveKnob"></div>
+          </div>
+          <button type="button" id="btnAtk" class="atk">공격</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="chatbox">
+      <div id="chatlog"></div>
+      <form id="chatform">
+        <input id="chatInput" maxlength="60" autocomplete="off" placeholder="메시지 입력 (Enter)" />
+        <button type="submit">보내기</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="menu">
+    <div id="login">
+      <div class="login-h">접근 코드</div>
+      <p class="brief">접근 코드가 있어야 이 웹 게임에 들어갈 수 있습니다.</p>
+      <table>
+        <tr>
+          <th>이름 (선택)</th>
+          <td><input id="nameInput" maxlength="10" /></td>
+        </tr>
+        <tr>
+          <th>접근 코드</th>
+          <td><input id="codeInput" maxlength="20" placeholder="접근 코드를 입력하세요" /></td>
+        </tr>
+      </table>
+      <p id="menuError"></p>
+      <div class="login-btns">
+        <button type="button" id="btnJoin">접속하기</button>
+      </div>
+      <p class="hint">WASD 이동 · 마우스 조준 · 클릭 공격 · 1 총 · 2 검</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
